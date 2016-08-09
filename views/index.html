@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Employee Details</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/bootstrap/3.3.7/js/bootstrap.js"></script>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- Converting json to html table format. function called on  Get Data Button-->
+
+    <script type="text/javascript">
+  var count=1;
+function myOnclick() {
+
+  if(count==1){
+
+ function addAllColumnHeaders(myList) {
+
+     var columnSet = [];
+
+     var headerTr$ = $('<tr/>');
+     for (var i = 0; i < myList.length; i++) {
+
+         var rowHash = myList[i];
+
+         for (var key in rowHash) {
+
+             if ($.inArray(key, columnSet) == -1) {
+
+                 columnSet.push(key);
+
+                 headerTr$.append($('<th scope="row"/>').html(key));
+
+             }
+
+         }
+
+     }
+
+     $("#jsonTable").append(headerTr$);
+     return columnSet;
+ }
+ $.getJSON("http://localhost:3000/books", function (data) {
+
+     var columns = addAllColumnHeaders(data);
+
+
+     for (var i = 0; i < data.length; i++) {
+
+         var row$ = $('<tr/>');
+
+         for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+
+             var cellValue = data[i][columns[colIndex]];
+           if (cellValue == null) { cellValue = ""; }
+             row$.append($('<td/>').html(cellValue));
+         }
+         $("#jsonTable").append(row$);
+     }
+ });
+ }
+ count++;
+
+}
+
+ </script>
+
+
+
+  </head>
+  <body>
+
+
+    <!-- Button is calling myOnclick method-->
+
+    <div class="container">
+      <div class="row">
+
+    <div class="col-lg-12">
+
+       <button type="button" class="btn btn-primary btn-block" onclick="myOnclick()">Get Data</button>
+    </div>
+
+
+   <table class="table table-bordered table-inverse" id="jsonTable">
+
+       </table>
+
+     </div>
+
+     <!--
+     /new it's an api localhost:3000/new which is inserting data into
+     mongoDb example.Book
+    -->
+
+     <form action="/new" class="form-horizontal" method="post" id="full">
+     <fieldset>
+
+     <!-- Form Name -->
+     <legend>Registration Form</legend>
+
+
+
+     <!-- Text input-->
+     <div class="form-group">
+     <label class="col-md-4 control-label" for="title">Book Title</label>
+     <div class="col-md-4">
+     <input id="title" name="title" placeholder="Book Title" class="form-control input-md" required="" type="text">
+
+     </div>
+     </div>
+
+     <!-- Password input-->
+     <div class="form-group">
+     <label class="col-md-4 control-label" for="author">Author</label>
+     <div class="col-md-4">
+     <input id="author" name="author" placeholder="auther Name" class="form-control input-md" required="" type="text">
+
+     </div>
+     </div>
+
+     <!-- Text input-->
+     <div class="form-group">
+     <label class="col-md-4 control-label" for="category">Category</label>
+     <div class="col-md-4">
+     <input id="category" name="category" placeholder="Enter category" class="form-control input-md" required="" type="text">
+
+     </div>
+     </div>
+
+
+     <!-- Button (Double) -->
+     <div class="form-group">
+     <label class="col-md-4 control-label" for="button1id"></label>
+     <div class="col-md-8">
+     <button id="button1id" name="button1id" class="btn btn-success">Submit</button>
+     <button id="button2id" name="button2id" class="btn btn-danger">Delete</button>
+     </div>
+     </div>
+
+     </fieldset>
+     </form>
+
+</div>
+
+<form action="/deletedata" method="post" id="delform">
+
+<input type="text"  name="title" />
+  <input type="submit" />
+</form>
+
+
+<form action="/finding" method="post" id="searchform">
+
+<input type="text"  name="title" />
+  <input type="submit" value="Find" onclick="myOnclick1()"/>
+</form>
+
+
+
+     <form action="/updt" class="form-horizontal" method="post">
+     <fieldset>
+
+     <!-- Form Name -->
+     <legend>Update</legend>
+
+
+
+     <!-- Text input-->
+     <div class="form-group">
+     <label class="col-md-4 control-label" for="title">Book Title</label>
+     <div class="col-md-4">
+     <input id="title" name="title" placeholder="Book Title" class="form-control input-md" required="" type="text">
+
+     </div>
+     </div>
+
+     <!-- Password input-->
+     <div class="form-group">
+     <label class="col-md-4 control-label" for="author">Author</label>
+     <div class="col-md-4">
+     <input id="author" name="author" placeholder="auther Name" class="form-control input-md" required="" type="text">
+
+     </div>
+     </div>
+
+     <!-- Text input-->
+     <div class="form-group">
+     <label class="col-md-4 control-label" for="category">Category</label>
+     <div class="col-md-4">
+     <input id="category" name="category" placeholder="Enter category" class="form-control input-md" required="" type="text">
+
+     </div>
+     </div>
+
+
+     <!-- Button (Double) -->
+     <div class="form-group">
+     <label class="col-md-4 control-label" for="button1id"></label>
+     <div class="col-md-8">
+     <button id="button1id" name="button1id" class="btn btn-success">Submit</button>
+     <button id="button2id" name="button2id" class="btn btn-danger">Delete</button>
+     </div>
+     </div>
+
+     </fieldset>
+     </form>
+
+</div>
+
+  </body>
+</html>
